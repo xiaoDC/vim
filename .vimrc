@@ -288,13 +288,6 @@
     highlight clear LineNr          " Current line number row will have same background color in relative mode
     "highlight clear CursorLineNr    " Remove highlight color from current line number
 
-    " 文件修改之后自动载入
-    set autoread
-    " 映射切换buffer的键位
-    noremap <left> :bp<CR>
-    noremap <right> :bn<CR>
-    noremap B :buffers<CR>
-    noremap M :noh<CR>
 
     if has('cmdline_info')
         set ruler                   " Show the ruler
@@ -303,21 +296,28 @@
                                     " Selected characters/lines in visual mode
     endif
 
-    if has('statusline')
-        set laststatus=2
+"    if has('statusline')
+"        set laststatus=2
+"
+"        " Broken down into easily includeable segments
+"        set statusline=%<%f\                     " Filename
+"        set statusline+=%w%h%m%r                 " Options
+"        if !exists('g:override_spf13_bundles')
+"            set statusline+=%{fugitive#statusline()} " Git Hotness
+"        endif
+"        set statusline+=\ [%{&ff}/%Y]            " Filetype
+"        set statusline+=\ [%{getcwd()}]          " Current dir
+"        set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+"    endif
 
-        " Broken down into easily includeable segments
-        set statusline=%<%f\                     " Filename
-        set statusline+=%w%h%m%r                 " Options
-        if !exists('g:override_spf13_bundles')
-            set statusline+=%{fugitive#statusline()} " Git Hotness
-        endif
-        set statusline+=\ [%{&ff}/%Y]            " Filetype
-        set statusline+=\ [%{getcwd()}]          " Current dir
-        set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-    endif
 
-
+    " 文件修改之后自动载入
+    set autoread
+    " 映射切换buffer的键位
+    noremap <left> :bp<CR>
+    noremap <right> :bn<CR>
+    noremap B :buffers<CR>
+    noremap M :noh<CR>
     " 显示光标的坐标
     set ruler
     " 显示光标所在列
@@ -841,10 +841,11 @@
             endif
 
             if !exists('g:airline_theme')
-                "let g:airline_theme='tomorrow'
-                let g:airline_theme='molokai'
+                " let g:airline_theme='molokai'
                 "let g:airline_theme='solarized'
             endif
+
+            let g:airline_theme='tomorrow'
 
             let g:airline_left_sep = '▶'
             let g:airline_left_alt_sep = '❯'
@@ -856,7 +857,6 @@
             let g:airline_symbols.crypt = '🔒'
 
             " 设置 airline 的 statusline 一直显示
-            set laststatus=1
             let g:airline#extensions#tabline#enabled = 1
             let g:airline#extensions#tabline#buffer_nr_show = 1
             let g:airline#extensions#tabline#left_sep = '▶'
@@ -870,7 +870,23 @@
             " let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
             " bufferline 插件配置
             let g:airline#extensions#bufferline#enabled = 1
+"            let g:airline#extensions#default#section_truncate_width = {
+"                  \ 'b': 79,
+"                  \ 'x': 60,
+"                  \ 'y': 88,
+"                  \ 'z': 45,
+"                  \ 'warning': 80,
+"                  \ 'error': 80,
+"                  \ }
+"            let g:airline#extensions#default#layout = [
+"                  \ [ 'a', 'b', 'c' ],
+"                  \ [ 'x', 'y', 'z', 'error', 'warning' ]
+"                  \ ]
+"
+"            let airline#extensions#default#section_use_groupitems = 1
+"            let g:airline#extensions#branch#enabled = 1
         endif
+        set laststatus=1
     "}
 
     " airline_theme {
