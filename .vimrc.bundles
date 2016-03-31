@@ -77,8 +77,11 @@
         Bundle 'gmarik/vundle'
         " Bundle 'MarcWeber/vim-addon-mw-utils'
         " Bundle 'tomtom/tlib_vim'
-        " if executable('ag')
+        if executable('ag')
             " Bundle 'mileszs/ack.vim'
+            Bundle 'https://github.com/rking/ag.vim.git'
+        endif
+
             " let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
         " elseif executable('ack-grep')
             " let g:ackprg="ack-grep -H --nocolor --nogroup --column"
@@ -161,7 +164,7 @@
         if count(g:spf13_bundle_groups, 'programming')
             " Pick one of the checksyntax, jslint, or syntastic
             Bundle 'scrooloose/syntastic'
-            " Bundle 'tpope/vim-fugitive'
+            Bundle 'tpope/vim-fugitive'
             " 侧边栏显示 git 文件修改
             Bundle 'https://github.com/airblade/vim-gitgutter.git'
             " 文件目录插件
@@ -261,6 +264,7 @@
             Bundle 'gorodinskiy/vim-coloresque'
             Bundle 'tpope/vim-haml'
             Bundle 'mattn/emmet-vim'
+            Bundle 'https://github.com/digitaltoad/vim-jade.git'
         endif
     " }
 

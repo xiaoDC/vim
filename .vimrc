@@ -45,6 +45,7 @@
 
     " Basics {
         set nocompatible        " Must be first line
+        set noundofile
         if !WINDOWS()
             set shell=/bin/zsh
         endif
@@ -111,11 +112,7 @@
     scriptencoding utf-8
 
     if has('clipboard')
-        if has('unnamedplus')  " When possible use + register for copy-paste
-            set clipboard=unnamed,unnamedplus
-        else         " On mac and Windows, use * register for copy-paste
-            set clipboard=unnamed
-        endif
+        set clipboard+=unnamed
     endif
 
     " Most prefer to automatically switch to the current file directory when
@@ -160,7 +157,7 @@
 "        augroup END
 "    endif
 
-    command! Bclose call <SID>BufcloseCloseIt()
+    command! Bc call <SID>BufcloseCloseIt()
     function! <SID>BufcloseCloseIt()
       let l:currentBufNum = bufnr("%")
       let l:alternateBufNum = bufnr("#")
@@ -251,21 +248,21 @@
 
     " Setting up the directories {
 "         set backup                  " Backups are nice ...
-        if has('persistent_undo')
-            set undofile                " So is persistent undo ...
-            set undolevels=1000         " Maximum number of changes that can be undone
-            set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
-        endif
+        " if has('persistent_undo')
+            " set undofile                " So is persistent undo ...
+            " set undolevels=1000         " Maximum number of changes that can be undone
+            " set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
+        " endif
 
         " To disable views add the following to your .vimrc.before.local file:
         "   let g:spf13_no_views = 1
-        if !exists('g:spf13_no_views')
-            " Add exclusions to mkview and loadview
-            " eg: *.*, svn-commit.tmp
-            let g:skipview_files = [
-                \ '\[example pattern\]'
-                \ ]
-        endif
+"        if !exists('g:spf13_no_views')
+"            " Add exclusions to mkview and loadview
+"            " eg: *.*, svn-commit.tmp
+"            let g:skipview_files = [
+"                \ '\[example pattern\]'
+"                \ ]
+"        endif
     " }
 
 " }
@@ -415,10 +412,10 @@
     " .vimrc.before.local file:
     "   let g:spf13_no_easyWindows = 1
 "    if !exists('g:spf13_no_easyWindows')
-        map <C-J> <C-W>j<C-W>_
-        map <C-K> <C-W>k<C-W>_
-        map <C-L> <C-W>l<C-W>_
-        map <C-H> <C-W>h<C-W>_
+        map <C-J> <C-W>j
+        map <C-K> <C-W>k
+        map <C-L> <C-W>l
+        map <C-H> <C-W>h
 "    endif
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
@@ -687,12 +684,14 @@
     " NerdTree {
         if isdirectory(expand("~/.vim/bundle/nerdtree"))
             nmap <leader><Tab> :NERDTreeFocus<CR>
+            " map <leader><Tab> :NERDTreeToggle<CR>
             let g:NERDTreeShowLineNumbers=1
             let g:NERDTreeWinSize=40
             let g:neocomplete#enable_at_startup = 1
             autocmd FileType nerdtree IndentLinesToggle
             let NERDTreeShowHidden=1
             let g:NERDSpaceDelims=1
+            command! -n=0 -bar Nc :call g:NERDTree.Close()
 
 "            map <C-e> <plug>NERDTreeTabsToggle<CR>
 "            map <leader>e :NERDTreeFind<CR>
@@ -723,7 +722,7 @@
     " }
 
     " YankRing {
-        if isdirectory(expand("~/.vim/bundle/YankRing"))
+        if isdirectory(expand("~/.vim/bundle/YankRing.vim"))
             nnoremap <leader>z :YRShow<CR>
             let g:yankring_history_dir = '~/yankring_history'
         endif
@@ -840,12 +839,18 @@
               let g:airline_symbols = {}
             endif
 
-            if !exists('g:airline_theme')
-                " let g:airline_theme='molokai'
-                "let g:airline_theme='solarized'
-            endif
-
+            " let g:airline_extensions = ['branch', 'tabline']
+            " let g:airline_theme='solarized'
             let g:airline_theme='tomorrow'
+
+            function! AirlineInit()
+              let g:airline_section_a = airline#section#create(['mode', ' ', 'branch'])
+              let g:airline_section_b = airline#section#create_left(['hunks', 'file'])
+              let g:airline_section_c = airline#section#create(['filetype'])
+              let g:airline_section_x = airline#section#create(['%{getcwd()}'])
+              let g:airline_section_y = airline#section#create(['%P'])
+            endfunction
+            autocmd VimEnter * call AirlineInit()
 
             let g:airline_left_sep = '▶'
             let g:airline_left_alt_sep = '❯'
@@ -867,7 +872,7 @@
             " let g:airline#extensions#tabline#buffer_idx_mode = 1
 
             " tabline中buffer显示编号
-            " let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
+            let g:airline#extensions#tabline#tab_nr_type = 2 " splits and tab number
             " bufferline 插件配置
             let g:airline#extensions#bufferline#enabled = 1
 "            let g:airline#extensions#default#section_truncate_width = {
@@ -884,7 +889,19 @@
 "                  \ ]
 "
 "            let airline#extensions#default#section_use_groupitems = 1
-"            let g:airline#extensions#branch#enabled = 1
+
+            " 设置 airline， 即顶部tab的快捷键，可以快速查看buffer
+            nmap <leader>1 <Plug>AirlineSelectTab1
+            nmap <leader>2 <Plug>AirlineSelectTab2
+            nmap <leader>3 <Plug>AirlineSelectTab3
+            nmap <leader>4 <Plug>AirlineSelectTab4
+            nmap <leader>5 <Plug>AirlineSelectTab5
+            nmap <leader>6 <Plug>AirlineSelectTab6
+            nmap <leader>7 <Plug>AirlineSelectTab7
+            nmap <leader>8 <Plug>AirlineSelectTab8
+            nmap <leader>9 <Plug>AirlineSelectTab9
+
+
         endif
         set laststatus=1
     "}
@@ -900,13 +917,13 @@
 
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
-        if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
-            if !exists('g:airline_powerline_fonts')
-                " Use the default set of separators with a few customizations
-                let g:airline_left_sep='›'  " Slightly fancier than '>'
-                let g:airline_right_sep='‹' " Slightly fancier than '<'
-            endif
-        endif
+"        if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
+"            if !exists('g:airline_powerline_fonts')
+"                " Use the default set of separators with a few customizations
+"                let g:airline_left_sep='›'  " Slightly fancier than '>'
+"                let g:airline_right_sep='‹' " Slightly fancier than '<'
+"            endif
+"        endif
     " }
     " vim-gitgutter {
         if isdirectory(expand("~/.vim/bundle/vim-gitgutter/"))
@@ -1311,6 +1328,8 @@
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
         set guioptions-=T           " Remove the toolbar
+        set guioptions-=L       " 隐藏左侧滚动条
+        set guioptions-=r       " 隐藏右侧滚动条
         set lines=40                " 40 lines of text instead of 24
         if !exists("g:spf13_no_big_font")
             if LINUX() && has("gui_running")
