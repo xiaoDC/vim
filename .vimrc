@@ -183,7 +183,7 @@
 
     " 关闭所有不在窗口里的 buffer
     " http://stackoverflow.com/questions/1534835/how-do-i-close-all-buffers-that-arent-shown-in-a-window-in-vim
-    command! CloseOtherBuffer call <SID>Wipeout()
+    command! Cb call <SID>Wipeout()
     function! <SID>Wipeout()
       " list of *all* buffer numbers
       let l:buffers = range(1, bufnr('$'))
