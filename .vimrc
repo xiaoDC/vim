@@ -72,8 +72,8 @@
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
     set lbr
-    set textwidth=80
-    let &colorcolumn="80"
+    " set textwidth=80
+    " let &colorcolumn="80"
 
 " }
 
@@ -344,7 +344,8 @@
 
 " Formatting {
 
-    set nowrap                      " Do not wrap long lines
+    " set nowrap                      " Do not wrap long lines
+    set wrap
     set autoindent                  " Indent at the same level of the previous line
     set shiftwidth=2                " Use indents of 4 spaces
     set expandtab                   " Tabs are spaces, not tabs
@@ -478,17 +479,17 @@
 
     " Stupid shift key fixes
     if !exists('g:spf13_no_keyfixes')
-        if has("user_commands")
-            command! -bang -nargs=* -complete=file E e<bang> <args>
-            command! -bang -nargs=* -complete=file W w<bang> <args>
-            command! -bang -nargs=* -complete=file Wq wq<bang> <args>
-            command! -bang -nargs=* -complete=file WQ wq<bang> <args>
-            command! -bang Wa wa<bang>
-            command! -bang WA wa<bang>
-            command! -bang Q q<bang>
-            command! -bang QA qa<bang>
-            command! -bang Qa qa<bang>
-        endif
+"        if has("user_commands")
+"            command! -bang -nargs=* -complete=file E e<bang> <args>
+"            command! -bang -nargs=* -complete=file W w<bang> <args>
+"            command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+"            command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+"            command! -bang Wa wa<bang>
+"            command! -bang WA wa<bang>
+"            command! -bang Q q<bang>
+"            command! -bang QA qa<bang>
+"            command! -bang Qa qa<bang>
+"        endif
 
         cmap Tabe tabe
     endif
@@ -991,6 +992,13 @@
 "            nnoremap <silent> <leader>gg :SignifyToggle<CR>
 "        endif
     "}
+
+    " syntastic {
+        if count(g:spf13_bundle_groups, 'syntastic')
+            let g:syntastic_javascript_checkers = ['eslint']
+        endif
+    " }
+
 
     " YouCompleteMe {
         if count(g:spf13_bundle_groups, 'youcompleteme')
