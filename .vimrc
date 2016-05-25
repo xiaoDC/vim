@@ -857,19 +857,27 @@
             endfunction
             autocmd VimEnter * call AirlineInit()
 
-            let g:airline_left_sep = '▶'
-            let g:airline_left_alt_sep = '❯'
-            let g:airline_right_sep = '◀'
-            let g:airline_right_alt_sep = '❮'
-            let g:airline_symbols.linenr = '␤'
-            let g:airline_symbols.branch = '⎇ '
+            " let g:airline_left_sep = '▶'
+            " let g:airline_left_alt_sep = '❯'
+            " let g:airline_right_sep = '◀'
+            " let g:airline_right_alt_sep = '❮'
+            " let g:airline_symbols.linenr = '␤'
+            " let g:airline_symbols.branch = '⎇ '
             let g:airline_symbols.whitespace = 'Ξ'
             let g:airline_symbols.crypt = '🔒'
+            " powerline symbols
+            let g:airline_left_sep = ''
+            let g:airline_left_alt_sep = ''
+            let g:airline_right_sep = ''
+            let g:airline_right_alt_sep = ''
+            let g:airline_symbols.branch = ''
+            let g:airline_symbols.readonly = ''
+            let g:airline_symbols.linenr = ''
 
             " 设置 airline 的 statusline 一直显示
             let g:airline#extensions#tabline#enabled = 1
             let g:airline#extensions#tabline#buffer_nr_show = 1
-            let g:airline#extensions#tabline#left_sep = '▶'
+            let g:airline#extensions#tabline#left_sep = ''
             let g:airline#extensions#branch#enabled = 1
             let g:airline#extensions#tabline#left_alt_sep = '|'
             let g:airline#extensions#branch#enabled = 1
@@ -916,19 +924,19 @@
         " Use the powerline theme and optionally enable powerline symbols.
         " To use the symbols , , , , , , and .in the statusline
         " segments add the following to your .vimrc.before.local file:
-        "   let g:airline_powerline_fonts=1
+        let g:airline_powerline_fonts=1
         " If the previous symbols do not render for you then install a
         " powerline enabled font.
 
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
-"        if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
-"            if !exists('g:airline_powerline_fonts')
-"                " Use the default set of separators with a few customizations
-"                let g:airline_left_sep='›'  " Slightly fancier than '>'
-"                let g:airline_right_sep='‹' " Slightly fancier than '<'
-"            endif
-"        endif
+        if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
+            if !exists('g:airline_powerline_fonts')
+               " Use the default set of separators with a few customizations
+               let g:airline_left_sep='›'  " Slightly fancier than '>'
+               let g:airline_right_sep='‹' " Slightly fancier than '<'
+            endif
+        endif
     " }
     " vim-gitgutter {
         if isdirectory(expand("~/.vim/bundle/vim-gitgutter/"))
